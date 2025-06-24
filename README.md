@@ -49,6 +49,9 @@ We drop the features: weight, payer_code, and medical_specialty since they missi
 ### Exploratory data analysis
 
 The main objectives of our EDA are to visualize any notable correlations between different features and readmissions. We also check if the features themselves are correlated to others. 
+
+![Numerical features vs Readmission frequency](./figs/num_1_v_readmit.png "Numerical features vs Readmission frequency")
+
 ### Feature engineering 
 
 ## Models and Results
