@@ -67,19 +67,29 @@ None of the features seem to be significantly correlated to others. The only exc
 We group the features admission_type_id, discharge_disposition_id, admission_source_id, diag_1, diag_2, and diag_3. As stated earlier, the diagnosis codes appear as the first three characters of the alphanumeric [ICD9 codes](https://en.wikipedia.org/wiki/List_of_ICD-9_codes). We group these diagnosis codes into 19 distinct categories such as, circulatory, respiratory, digestive, infections, etc. The other industry standard codes are also grouped into categories. For instance, admission_type_id is grouped into urgent care, non-urgent care, and unknown.
 
 #### Integer encodings
-Some of the categorical variables such as race and gender are one-hot encoded. We encode the ages as, [0-10) as 0, [10-20) as 1, [20-30) as 3, and so on. The drug features (metformin, repaglinide, etc.) 
+Some of the categorical variables such as race and gender are one-hot encoded. We encode the ages as follows, [0-10) as 0, [10-20) as 1, [20-30) as 3, and so on. The drug features (metformin, repaglinide, etc.) have four distinct values: up, steady, down, and no which correspond to dosage increased, unchanged, decreased and not presecribed respectively. We encode these as follows, up as 3, steady as 2, down as 1, and no as 0. Similarly, the test result variables, A1Cresult (HbA1c test result) and max_glu_serum (maximum glucose serum test) have four distinct values. Take max_glu_serum for instance. The four distinct values are encoded as follows, >300 mg/dL as 3, >200 mg/dL as 2, Norm (~120 mg/dL) as 1, and No (test not performed) as 0.
+
+#### Additional features
+
+A key observation for this project was the fact that even though we have $\sim 10^5$ data points, there are only $\sim 7\times 10^4$ unique patients. This fact is mentioned in the [paper](http://www.hindawi.com/journals/bmri/2014/781670/) and used in this [project](https://github.com/lelandburrill/diabetes_readmission). This allowed us to add some patient historical data. For example, we added the number of distinct diagnoses a patient has had as well as the total time spent in hospitals. We added an additional 13 features corresponding to diagnoses that are responsible for the highest number of readmissions.
 
 ## Models and Results
 ### Models
+Here is a list of the models that we used:
 - Logistic regression (base model)
-- kNN
-- XGBoost
+- k-Nearest Neighbor (k-NN) classifier
+- XGBoost classifier
 - RandomForest
 ### Results
-Here is a summary of the results.
-
+Here is a summary of the results (note that the class 1 corresponds to readmitted in <30 days).
+| Model | MSE | AUC score | Accuracy | Precision | Recall | F1-score |
+|-------|-----|----------|-----------|-----------|--------|----------|
+|Linear regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
+| k-NN | MSE for kNN | AUC score for kNN | Accuracy for kNN | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
+| XGBoost | 0.1124 | 0.8206 | 0.8876 | 0 : 0.89<br>1 : 0.57 | 0 : 0.99<br>1 : 0.07 | 0 : 0.94<br>1 : 0.13 |
+| RandomForest | MSE for kNN | AUC score for kNN | Accuracy for kNN | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
 ### Final model
-
+TBD
 ## Future Prospects
 1. 
 2. 
