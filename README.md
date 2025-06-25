@@ -85,17 +85,20 @@ Here is a summary of the results (note that the class 1 corresponds to readmitte
 | Model | MSE | AUC score | Accuracy | Precision | Recall | F1-score |
 |-------|-----|----------|-----------|-----------|--------|----------|
 |Linear regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
-| k-NN | MSE for kNN | AUC score for kNN | Accuracy for kNN | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
+| k-NN | 0.1145 | 0.6116 | 0.8855 | 0 : 0.89<br>1 : 0.62 | 0 : 1.00<br> 1 : 0.00 | 0 : 0.94<br>1 : 0.00 |
 | XGBoost | 0.1124 | 0.8206 | 0.8876 | 0 : 0.89<br>1 : 0.57 | 0 : 0.99<br>1 : 0.07 | 0 : 0.94<br>1 : 0.13 |
 | RandomForest | MSE for RF | AUC score for RF | Accuracy for RF | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
 ### Final model
 TBD
-## Future Prospects
-1. 
-2. 
+## Future Steps
+1. A ternary classification with classes readmitted in <30 days, readmitted after 30 days, and not readmitted.
+2. Use the model on [MIMIC-III](https://physionet.org/content/mimiciii/1.4/) and [MIMIC-IV](https://physionet.org/content/mimiciv/). Both of these are large and robust datasets and would probably lead to a significantly improved model.
 
-## Guide to Repo
-1. 
-2. 
+## Repo details
 
-## References
+*data/* : Contains all data files used or generated throughout the project. They are all in CSV format.
+
+*figs/* : Contains all plots and figures generated from different notebooks. Some of these figures are used in the README.
+
+*figs/plot_data/* : Contains some additional data used to create plots.
+
