@@ -48,11 +48,26 @@ We drop the features: weight, payer_code, and medical_specialty since they missi
 
 ### Exploratory data analysis
 
+Here is how the data is distributed over the target and demographic features.
+![Target distribution](./figs/target_dist.png)
+![Age distribution](./figs/age_v_count.png)
+![Race distribution](./figs/race_dist.png)
+
 The main objectives of our EDA are to visualize any notable correlations between different features and readmissions. We also check if the features themselves are correlated to others. 
 
 ![Numerical features vs Readmission frequency](./figs/num_1_v_readmit.png "Numerical features vs Readmission frequency")
+![Correlations](./figs/corr.png)
+
+None of the features seem to be significantly correlated to others. The only exception is the features time_in_hospital and num_medication, which is expected. We also established that the industry standard codes such as admission_type_id, discharge_disposition_id, admission_source_id and the ICD9 diagnosis codes have no correlation with the readmission frequency. We will discuss how to effectivel encode with these features in the next section.
 
 ### Feature engineering 
+
+#### Grouping codes
+
+We group the features admission_type_id, discharge_disposition_id, admission_source_id, diag_1, diag_2, and diag_3. As stated earlier, the diagnosis codes appear as the first three characters of the alphanumeric [ICD9 codes](https://en.wikipedia.org/wiki/List_of_ICD-9_codes). We group these diagnosis codes into 19 distinct categories such as, circulatory, respiratory, digestive, infections, etc. The other industry standard codes are also grouped into categories. For instance, admission_type_id is grouped into urgent care, non-urgent care, and unknown.
+
+#### Integer encodings
+Some of the categorical variables such as race and gender are one-hot encoded. We encode the ages as, [0-10) as 0, [10-20) as 1, [20-30) as 3, and so on. The drug features (metformin, repaglinide, etc.) 
 
 ## Models and Results
 ### Models
