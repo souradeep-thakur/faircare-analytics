@@ -87,7 +87,7 @@ Here is a summary of the results (note that the class 1 corresponds to readmitte
 |Linear regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
 | k-NN | MSE for kNN | AUC score for kNN | Accuracy for kNN | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
 | XGBoost | 0.1124 | 0.8206 | 0.8876 | 0 : 0.89<br>1 : 0.57 | 0 : 0.99<br>1 : 0.07 | 0 : 0.94<br>1 : 0.13 |
-| RandomForest | MSE for kNN | AUC score for kNN | Accuracy for kNN | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
+| RandomForest | MSE for RF | AUC score for RF | Accuracy for RF | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
 ### Final model
 TBD
 ## Future Prospects
