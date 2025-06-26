@@ -16,7 +16,7 @@ Our [dataset](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+
 | encounter_id |  ID    | UID of an encounter |   No   |
 | patient_nbr  |  ID    | UID of a patient |     No    |
 | race | Categorical  | Demographic; values: Caucasian,<br>Asian, AfricanAmerican, Hispanic, and other. | 2% |
-| gender | Categorical | Demographic; values: male, femaile, and unknown/invalid | No |
+| gender | Categorical | Demographic; values: male, female, and unknown/invalid | No |
 | age | Categorical | Demographic; values binned as [0-10), [10-20), ..., [90-100) | No
 | weight | Categorical | Weight in lbs. | 97% |
 | admission_type_id | Categorical | Integer codes with 9 distinct values; for example, 1 = emergency. | No |
@@ -58,7 +58,7 @@ The main objectives of our EDA are to visualize any notable correlations between
 ![Numerical features vs Readmission frequency](./figs/num_1_v_readmit.png "Numerical features vs Readmission frequency")
 ![Correlations](./figs/corr.png)
 
-None of the features seem to be significantly correlated to others. The only exception is the features time_in_hospital and num_medication, which is expected. We also established that the industry standard codes such as admission_type_id, discharge_disposition_id, admission_source_id and the ICD9 diagnosis codes have no correlation with the readmission frequency. We will discuss how to effectivel encode with these features in the next section.
+None of the features seem to be significantly correlated to others. The only exception is the features time_in_hospital and num_medication, which is expected. We also established that the industry standard codes such as admission_type_id, discharge_disposition_id, admission_source_id and the ICD9 diagnosis codes have no correlation with the readmission frequency. We will discuss how to effectively encode with these features in the next section.
 
 ### Feature engineering 
 
@@ -67,7 +67,7 @@ None of the features seem to be significantly correlated to others. The only exc
 We group the features admission_type_id, discharge_disposition_id, admission_source_id, diag_1, diag_2, and diag_3. As stated earlier, the diagnosis codes appear as the first three characters of the alphanumeric [ICD9 codes](https://en.wikipedia.org/wiki/List_of_ICD-9_codes). We group these diagnosis codes into 19 distinct categories such as, circulatory, respiratory, digestive, infections, etc. The other industry standard codes are also grouped into categories. For instance, admission_type_id is grouped into urgent care, non-urgent care, and unknown.
 
 #### Integer encodings
-Some of the categorical variables such as race and gender are one-hot encoded. We encode the ages as follows, [0-10) as 0, [10-20) as 1, [20-30) as 3, and so on. The drug features (metformin, repaglinide, etc.) have four distinct values: up, steady, down, and no which correspond to dosage increased, unchanged, decreased and not presecribed respectively. We encode these as follows, up as 3, steady as 2, down as 1, and no as 0. Similarly, the test result variables, A1Cresult (HbA1c test result) and max_glu_serum (maximum glucose serum test) have four distinct values. Take max_glu_serum for instance. The four distinct values are encoded as follows, >300 mg/dL as 3, >200 mg/dL as 2, Norm (~120 mg/dL) as 1, and No (test not performed) as 0.
+Some of the categorical variables such as race and gender are one-hot encoded. We encode the ages as follows, [0-10) as 0, [10-20) as 1, [20-30) as 3, and so on. The drug features (metformin, repaglinide, etc.) have four distinct values: up, steady, down, and no which correspond to dosage increased, unchanged, decreased and not prescribed respectively. We encode these as follows, up as 3, steady as 2, down as 1, and no as 0. Similarly, the test result variables, A1Cresult (HbA1c test result) and max_glu_serum (maximum glucose serum test) have four distinct values. Take max_glu_serum for instance. The four distinct values are encoded as follows, >300 mg/dL as 3, >200 mg/dL as 2, Norm (~120 mg/dL) as 1, and No (test not performed) as 0.
 
 #### Additional features
 
@@ -95,7 +95,7 @@ Extensive feature engineering and model optimization revealed the calibrated XGB
 
 ![ROC Curves](./figs/roc_all.png)
 
-Here are the feature importances,
+Here are the feature importance scores,
 
 | Feature                |   Importance |
 |:-----------------------|-------------:|
