@@ -84,12 +84,37 @@ Here is a list of the models that we used:
 Here is a summary of the results (note that the class 1 corresponds to readmitted in <30 days).
 | Model | MSE | AUC score | Accuracy | Precision | Recall | F1-score |
 |-------|-----|----------|-----------|-----------|--------|----------|
-|Linear regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
-| k-NN | 0.1145 | 0.6116 | 0.8855 | 0 : 0.89<br>1 : 0.62 | 0 : 1.00<br> 1 : 0.00 | 0 : 0.94<br>1 : 0.00 |
-| XGBoost | 0.1124 | 0.8206 | 0.8876 | 0 : 0.89<br>1 : 0.57 | 0 : 0.99<br>1 : 0.07 | 0 : 0.94<br>1 : 0.13 |
-| RandomForest | MSE for RF | AUC score for RF | Accuracy for RF | 0 : pres_0<br>1 : pres_1 | 0 : recall_0<br> 1 : recall_1 | 0 : f1-score_0<br>1 : f1-score_1 |
+|Baseline: Linear regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
+| k-NN | 0.1148 | 0.6640 | 0.8852 | 0 : 0.89<br>1 : 0.48 | 0 : 1.00<br> 1 : 0.02 | 0 : 0.94<br>1 : 0.04 |
+| RandomForest | 0.1137 | 0.8158 | 0.8863 | 0 : 0.89<br>1 : 0.58 | 0 : 1.00<br> 1 : 0.03 | 0 : 0.94<br>1 : 0.05 |
+| Final: XGBoost | 0.1124 | 0.8206 | 0.8876 | 0 : 0.89<br>1 : 0.57 | 0 : 0.99<br>1 : 0.07 | 0 : 0.94<br>1 : 0.13 |
+
 ### Final model
-TBD
+
+Extensive feature engineering and model optimization revealed the calibrated XGBoost as the best performing model, with a minimal edge over the RandomForest classifier. k-NearestNeighbors was the worst performing model, only managing to outperform the baseline model on unprocessed data. Here is a comparison of all the models,
+
+![ROC Curves](./figs/roc_all.png)
+
+Here are the feature importances,
+
+| Feature                |   Importance |
+|:-----------------------|-------------:|
+| pt_inp_tot             |    0.158818  |
+| number_inpatient       |    0.0687674 |
+| pt_diag_tot            |    0.0667006 |
+| discharge_longterm_ind |    0.0288018 |
+| pt_diag_ct             |    0.0276208 |
+
+It appears that features pertaining to inpatient visits and different diagnosis characteristics (total number of diagnoses and number of distinct diagnoses) are crucial for the model.
+
+We also wanted to ensure that the model does not have biases towards different demographic groups. For instance, the races of the patients in the dataset are extremely imbalanced. Here is a glimpse at different metrics for different demographic groups,
+
+![metrics vs age](./figs/met_by_age.png)
+![metrics vs race](./figs/met_by_race.png)
+![metrics vs gender](./figs/met_by_gender.png)
+
+*Note:* Binary classification experiments were also performed, targeting readmission within 30 days or greater than 30 days compared to no readmission. This approach offered better control over evaluation metrics due to a less severe class imbalance.
+
 ## Future Steps
 1. A ternary classification with classes readmitted in <30 days, readmitted after 30 days, and not readmitted.
 2. Use the model on [MIMIC-III](https://physionet.org/content/mimiciii/1.4/) and [MIMIC-IV](https://physionet.org/content/mimiciv/). Both of these are large and robust datasets and would probably lead to a significantly improved model.
