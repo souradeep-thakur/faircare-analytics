@@ -154,3 +154,5 @@ Our models to a decent job of classifying between readmitted (1) and not readmit
 *figs/plot_data/* : Contains some additional data used to create plots.
 
 *balanced_class/* : Contains notebooks, figures and plot data for balanced and three-way classifications.
+
+*deliverables/* : Contains the final presentation slides and the executive summary.
