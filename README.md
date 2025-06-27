@@ -50,12 +50,15 @@ We drop the features: weight, payer_code, and medical_specialty since they missi
 
 Here is how the data is distributed over the target and demographic features.
 ![Target distribution](./figs/target_dist.png)
+
 ![Age distribution](./figs/age_v_count.png)
+
 ![Race distribution](./figs/race_dist.png)
 
 The main objectives of our EDA are to visualize any notable correlations between different features and readmissions. We also check if the features themselves are correlated to others. 
 
 ![Numerical features vs Readmission frequency](./figs/num_1_v_readmit.png "Numerical features vs Readmission frequency")
+
 ![Correlations](./figs/corr.png)
 
 None of the features seem to be significantly correlated to others. The only exception is the features time_in_hospital and num_medication, which is expected. We also established that the industry standard codes such as admission_type_id, discharge_disposition_id, admission_source_id and the ICD9 diagnosis codes have no correlation with the readmission frequency. We will discuss how to effectively encode with these features in the next section.
@@ -77,7 +80,7 @@ A key observation for this project was the fact that even though we have $\sim 1
 ### Models
 Here is a list of the models that we used:
 - Logistic regression (base model)
-- k-Nearest Neighbor (k-NN) classifier
+- k-Nearest Neighbors (k-NN) classifier
 - XGBoost classifier
 - RandomForest
 ### Results
@@ -110,7 +113,9 @@ It appears that features pertaining to inpatient visits and different diagnosis 
 We also wanted to ensure that the model does not have biases towards different demographic groups. For instance, the races of the patients in the dataset are extremely imbalanced. Here is a glimpse at different metrics for different demographic groups,
 
 ![metrics vs age](./figs/met_by_age.png)
+
 ![metrics vs race](./figs/met_by_race.png)
+
 ![metrics vs gender](./figs/met_by_gender.png)
 
 *Note:* Binary classification experiments were also performed, targeting readmission within 30 days or greater than 30 days compared to no readmission. This approach offered better control over evaluation metrics due to a less severe class imbalance.
