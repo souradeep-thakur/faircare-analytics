@@ -84,17 +84,18 @@ Here is a list of the models that we used:
 - XGBoost classifier
 - RandomForest
 ### Results
+### _<30 day readmit_
 Here is a summary of the results (note that the class 1 corresponds to readmitted in <30 days).
 | Model | MSE | AUC score | Accuracy | Precision | Recall | F1-score |
 |-------|-----|----------|-----------|-----------|--------|----------|
-|Baseline: Linear regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
+|Baseline: Logistic regression| 0.1168 | 0.7193 | 0.8832| 0 : 0.89<br>1 : 0.39 | 0 : 0.99<br>1 : 0.04 | 0 : 0.94<br>1 : 0.07 |
 | k-NN | 0.1148 | 0.6640 | 0.8852 | 0 : 0.89<br>1 : 0.48 | 0 : 1.00<br> 1 : 0.02 | 0 : 0.94<br>1 : 0.04 |
-| RandomForest | 0.1137 | 0.8158 | 0.8863 | 0 : 0.89<br>1 : 0.58 | 0 : 1.00<br> 1 : 0.03 | 0 : 0.94<br>1 : 0.05 |
-| Final: XGBoost | 0.1124 | 0.8206 | 0.8876 | 0 : 0.89<br>1 : 0.57 | 0 : 0.99<br>1 : 0.07 | 0 : 0.94<br>1 : 0.13 |
+| RandomForest | 0.1146 | 0.8034 | 0.8854 | 0 : 0.89<br>1 : 0.50 | 0 : 0.99<br> 1 : 0.10 | 0 : 0.94<br>1 : 0.17 |
+| Final: XGBoost | 0.1301 | 0.7937 | 0.8699 | 0 : 0.90<br>1 : 0.37 | 0 : 0.96<br>1 : 0.20 | 0 : 0.93<br>1 : 0.26 |
 
 ### Final model
 
-Extensive feature engineering and model optimization revealed the calibrated XGBoost as the best performing model, with a minimal edge over the RandomForest classifier. k-NearestNeighbors was the worst performing model, only managing to outperform the baseline model on unprocessed data. Here is a comparison of all the models,
+Extensive feature engineering and model optimization revealed the none of the models were well suited for this classification. Due to the extreme imbalance in the target, we attempted to optimize the models prioritizing recall. The calibrated XGBoost was the best performing model in this regard. k-NearestNeighbors was the worst performing model, only managing to outperform the baseline model on unprocessed data. Here is a comparison of all the models,
 
 ![ROC Curves](./figs/roc_all.png)
 
@@ -102,11 +103,11 @@ Here are the feature importance scores,
 
 | Feature                |   Importance |
 |:-----------------------|-------------:|
-| pt_inp_tot             |    0.158818  |
-| number_inpatient       |    0.0687674 |
-| pt_diag_tot            |    0.0667006 |
-| discharge_longterm_ind |    0.0288018 |
-| pt_diag_ct             |    0.0276208 |
+| pt_inp_tot             |    0.380968  |
+| number_inpatient       |    0.243012  |
+| pt_diag_ct             |    0.0533737 |
+| discharge_longterm_ind |    0.0372293 |
+| pt_outp_tot            |    0.0324998 |
 
 It appears that features pertaining to inpatient visits and different diagnosis characteristics (total number of diagnoses and number of distinct diagnoses) are crucial for the model.
 
@@ -118,17 +119,38 @@ We also wanted to ensure that the model does not have biases towards different d
 
 ![metrics vs gender](./figs/met_by_gender.png)
 
-*Note:* Binary classification experiments were also performed, targeting readmission within 30 days or greater than 30 days compared to no readmission. This approach offered better control over evaluation metrics due to a less severe class imbalance.
+Metrics seem to be fairly balanced across genders and races, although not across age groups.
+
+### _Ternary classification_
+
+We attempted a multi-class classification using XGBoost. The classes: (0 = Not readmitted, 1 = readmitted in >30 days, 2 = readmitted in <30 days) Unfortunately, the model inevitably runs into over-fitting the training data. Despite achieving a recall score of 0.26 for the training data, it failed to predict any <30 day readmits in the test data.
+
+![ternary conf matrix](./balanced_class/figs/bal_conf_mat_xgb_3.png)
+
+### _Binary classification: Balanced classes_
+
+Our models to a decent job of classifying between readmitted (1) and not readmitted (0). Here is a summary of the results.
+
+| Model | MSE | AUC score | Accuracy | Precision | Recall | F1-score |
+|-------|-----|----------|-----------|-----------|--------|----------|
+|Baseline: Logistic regression| 0.2463 | 0.8086 | 0.7537 | 0 : 0.72<br>1 : 0.81 | 0 : 0.87<br>1 : 0.63 | 0 : 0.79<br>1 : 0.71 |
+| k-NN | 0.3176 | 0.7456 | 0.6824 | 0 : 0.65<br>1 : 0.75 | 0 : 0.86<br> 1 : 0.49 | 0 : 0.74<br>1 : 0.59 |
+| RandomForest | 0.2036 | 0.8576 | 0.7964 | 0 : 0.78<br>1 : 0.82 | 0 : 0.86<br> 1 : 0.73 | 0 : 0.82<br>1 : 0.77 |
+| XGBoost | 0.1889 | 0.8765 | 0.8111 | 0 : 0.78<br>1 : 0.87 | 0 : 0.90<br>1 : 0.71 | 0 : 0.83<br>1 : 0.78 |
+
+![roc balanced](./balanced_class/figs/roc_all_bal.png)
+
 
 ## Future Steps
-1. A ternary classification with classes readmitted in <30 days, readmitted after 30 days, and not readmitted.
+1. Improve recall for <30 day readmits. This is a notoriously hard problem to address. We intend to use deep reinforcement learning to perform a similar classification.
 2. Use the model on [MIMIC-III](https://physionet.org/content/mimiciii/1.4/) and [MIMIC-IV](https://physionet.org/content/mimiciv/). Both of these are large and robust datasets and would probably lead to a significantly improved model.
 
 ## Repo details
 
 *data/* : Contains all data files used or generated throughout the project. They are all in CSV format.
 
-*figs/* : Contains all plots and figures generated from different notebooks. Some of these figures are used in the README.
+*figs/* : Contains plots and figures generated from different notebooks for <30 day readmit classification. Some of these figures are used in the README.
 
 *figs/plot_data/* : Contains some additional data used to create plots.
 
+*balanced_class/* : Contains notebooks, figures and plot data for balanced and three-way classifications.
