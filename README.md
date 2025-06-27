@@ -49,6 +49,7 @@ We drop the features: weight, payer_code, and medical_specialty since they missi
 ### Exploratory data analysis
 
 Here is how the data is distributed over the target and demographic features.
+
 ![Target distribution](./figs/target_dist.png)
 
 ![Age distribution](./figs/age_v_count.png)
@@ -93,9 +94,8 @@ Here is a summary of the results (note that the class 1 corresponds to readmitte
 | RandomForest | 0.1146 | 0.8034 | 0.8854 | 0 : 0.89<br>1 : 0.50 | 0 : 0.99<br> 1 : 0.10 | 0 : 0.94<br>1 : 0.17 |
 | Final: XGBoost | 0.1301 | 0.7937 | 0.8699 | 0 : 0.90<br>1 : 0.37 | 0 : 0.96<br>1 : 0.20 | 0 : 0.93<br>1 : 0.26 |
 
-### Final model
-
-Extensive feature engineering and model optimization revealed the none of the models were well suited for this classification. Due to the extreme imbalance in the target, we attempted to optimize the models prioritizing recall. The calibrated XGBoost was the best performing model in this regard. k-NearestNeighbors was the worst performing model, only managing to outperform the baseline model on unprocessed data. Here is a comparison of all the models,
+#### Final model:
+ Extensive feature engineering and model optimization revealed the none of the models were well suited for this classification. Due to the extreme imbalance in the target, we attempted to optimize the models prioritizing recall. The calibrated XGBoost was the best performing model in this regard. k-NearestNeighbors was the worst performing model, only managing to outperform the baseline model on unprocessed data. Here is a comparison of all the models,
 
 ![ROC Curves](./figs/roc_all.png)
 
