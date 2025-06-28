@@ -101,17 +101,17 @@ Here is a summary of the results (class 1 corresponds to readmitted in <30 days)
 
 We also wanted to ensure that the model does not have biases towards different demographic groups. For instance, the races of the patients in the dataset are extremely imbalanced. Here is a glimpse at different metrics for different demographic groups,
 
-![metrics vs age](./figs/met_by_age.png)
-
 ![metrics vs race](./figs/met_by_race.png)
 
 ![metrics vs gender](./figs/met_by_gender.png)
+
+![metrics vs age](./figs/met_by_age.png)
 
 Analysis of the metrics reveals comparable distributions across gender and racial classifications. However, significant variations are noted when examining age groups.
 
 ### _Ternary classification_
 
-We attempted a multi-class classification using XGBoost. Here are the classes: (0 = Not readmitted, 1 = readmitted in >30 days, 2 = readmitted in <30 days). The model exhibited clear signs of overfitting, achieving a recall score of 0.26 (for class 2) on the training data but failing to predict a single <30 day readmissions in the test dataset.
+We attempted a three-way classification using XGBoost. Here are the classes: (0 = Not readmitted, 1 = readmitted in >30 days, 2 = readmitted in <30 days). The model exhibited clear signs of overfitting, achieving a recall score of 0.26 (for class 2) on the training data but failing to predict a single <30 day readmissions in the test dataset.
 
 ![ternary conf matrix](./balanced_class/figs/bal_conf_mat_xgb_3.png)
 
