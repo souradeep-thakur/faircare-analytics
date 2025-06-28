@@ -129,7 +129,7 @@ We attempted a multi-class classification using XGBoost. The classes: (0 = Not r
 
 ### _Binary classification: Balanced classes_
 
-Our models to a decent job of classifying between readmitted (1) and not readmitted (0). Here is a summary of the results.
+Our models do a decent job of classifying between readmitted (1) and not readmitted (0). Here is a summary of the results.
 
 | Model | MSE | AUC score | Accuracy | Precision | Recall | F1-score |
 |-------|-----|----------|-----------|-----------|--------|----------|
